@@ -1,6 +1,34 @@
 % !TEX root = ../main.tex
 
+
+\newcommand{\pn}{\text{\sc pn}\xspace}
+\newcommand{\vas}{\text{\sc vas}\xspace}
+\newcommand{\vass}{\text{\sc vass}\xspace}
+\newcommand{\dvass}{data \text{\sc vass}\xspace}
+\newcommand{\onevas}{1-\text{\sc vas}\xspace}
+\newcommand{\onevass}{1-\text{\sc vass}\xspace}
+\newcommand{\donevas}{1-\text{\sc dvas}\xspace}
+\newcommand{\donevass}{1-\text{\sc dvass}\xspace}
+\newcommand{\donepn}{1-\text{\sc dpn}\xspace}
+\newcommand{\vr}[1]{\mathbf{#1}}%{\vect{#1}}
+\newcommand{\setof}[2]{\{\,#1 \ \mid \ #2\,\}}
+\newcommand{\aut}[1]{\textsc{Perm}(#1)}
+\newcommand{\step}{\longrightarrow}
+\newcommand{\Mywlog}{W.l.o.g.\xspace}
+\newcommand{\mywlog}{w.l.o.g.\xspace}
+\newcommand{\norm}[1]{\textsc{norm}(#1)}%{\lVert#1\rVert}
+\newcommand{\width}[1]{\textsc{width}(#1)}
+\newcommand{\findim}[2]{{#1}_{#2}}
+\newcommand{\decomp}{decomposable\xspace}
+\newcommand{\indecomp}{indecomposable\xspace}
+\newcommand{\Decomp}{Decomposable\xspace}
+\newcommand{\Indecomp}{Indecomposable\xspace}
+\newcommand{\trace}{trace\xspace}
+
+
+\newcommand{\np}{\textsc{NP}\xspace}
 \newcommand{\pspace}{\textsc{PSpace}\xspace}
+\newcommand{\expspace}{\textsc{ExpSpace}\xspace}
 \newcommand{\tw}[1]{\Time #1^*}
 \newcommand{\two}[1]{\Time #1^\omega}
 \newcommand{\para}[1]{\vspace{-2mm}\subparagraph*{#1.}}
@@ -10,8 +38,8 @@
 \newcommand{\tuple}[1]{\ensuremath{\langle #1 \rangle}\xspace}
 
 %%% Todo notes
-\newcommand{\slside}[1]{\todo[color=yellow]{SL: {#1}}}
-\newcommand{\slinline}[1]{\todo[color=yellow,inline]{SL: {#1}}}
+\newcommand{\sltodo}{\textcolor{blue}{TODO}}
+\newcommand{\sla}[1]{\textcolor{blue}{SL: #1}}
 \newcommand{\ml}[1]{\todo[color=cyan]{ML: {#1}}}
 \newcommand{\rp}[1]{\todo[color=green]{RP: {#1}}}
 \newcommand{\mlinline}[1]{\todo[color=cyan,inline]{ML: {#1}}}
@@ -26,6 +54,11 @@
 \newcommand{\Time}{\mathbb{T}}
 \newcommand{\Qpos}{\Q_{\geq 0}}
 \newcommand{\Rpos}{\R_{\geq 0}}
+\newcommand{\atoms}{\mathbb{A}}
+
+\newcommand{\finto}{\to_{\text{fin}}}
+\newcommand{\finsubseteq}{\subseteq_{\text{fin}}}
+\newcommand{\V}{\mathcal{V}}
 
 %%% NTA
 \newcommand{\rresNTA}{\ensuremath{\text{reach-}\textsc{NTA}^{\text{res}}\xspace}}

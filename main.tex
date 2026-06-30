@@ -25,7 +25,7 @@
 
 \bibliographystyle{plainurl}% the mandatory bibstyle
 
-\title{Reachability in data 1-VASS} %TODO Please add
+\title{Reachability in 1-VASS with data} %TODO Please add
 
 %\titlerunning{Dummy short title} %TODO optional, please use if title is longer than one line
 
@@ -92,7 +92,8 @@ by the NCN grant 2024/55/B/ST6/01674.}
 
 %TODO mandatory: add short abstract of the document
 \begin{abstract}
-We study the complexity of the reachabiltiy problem in data vector addition systems with states (data VASS)
+We study the complexity of the reachabiltiy problem in data vector addition systems 
+with states (data VASS)
 in dimension 1.
 \end{abstract}
 
@@ -101,11 +102,281 @@ in dimension 1.
 
 \section{The model}
 
-Data Petri nets (resp.~data VASS) are like plain Petri nets (resp.~VASS) except that tokens carry values from
-a given data universe, and transitions are conditioned by constraints on the data values involved.
-In principle, the data universe may be any relational structure, 
-In this paper we restrict to the simples data domain, the equality domain, which is a countable infinite
-set 
+\emph{Data Petri nets} (resp.~\emph{data \vass}) are like plain Petri nets 
+(resp.~\vass) except that every 
+token carries a value from a given data universe, and fireability of transitions is 
+conditioned by constraints on the data values involved.
+In principle, the data universe may be any fixed relational structure, however
+complex data universes often lead to undecidability of verification problems.
+We consider the simplest data universe, the equality universe, which 
+is a countable infinite set $\atoms$ (whose elements are called \emph{atoms}) 
+with just equality relation: $(\atoms, =)$. 
+In this case, fireability of a transition is conditioned by equalities and non-equalities
+of data values carried by the tokens involved in a transition.
+This is the most often studied data universe, for various models of computation
+\cite{}.
+
+In this paper we study the reachability problem in \dvass in dimension 1 (\donevass). 
+
+\para{Definition of \vass} \sla{TODO}
+
+\para{Definition of \donevass}
+By an (integer) \emph{data vector} we mean any function $\vr v$
+from atoms to integers that has finite 
+support, namely assigns non-zero to only finitely many atoms, written
+$\vr v : \atoms \finto \Z$.
+Thus the \emph{support} of $\vr v$ is the set $\setof{a\in\atoms}{\vr v(a)\neq 0}$.
+We define the \emph{norm} of $\vr v$ as the largest absolute value apparing in $\vr v$,
+and the \emph{width} of $\vr v$ and the size of its support,
+denote as $\norm {\vr v}$ and $\width {\vr v}$, respectively.
+As expected, addition of data vectors is pointwise.
+
+A \donevass $\V = (Q, T_0)$ consists of a finite set $Q$ of control states, and 
+a finite set of transitions
+$T_0\finsubseteq Q\times (\atoms\finto\Z)\times Q$. 
+The data vector $\vr v$ is called the \emph{effect} of a transition $(q, \vr v, q')$.
+We inplicitely extend the set $T_0$ by applying all permutations of atoms
+$\sigma \in \aut \atoms$, namely 
+\[
+T := \setof{(q, \sigma(\vr v), q')}{(q, \vr v, q')\in T_0, \ \sigma \in \aut \atoms}, 
+\]
+where $\sigma(\vr v)$ stands for the natural point-wise action of permutations of 
+atoms on data vectors:
+\[ \sigma(\vr v)(\sigma(a)) = \vr v(a). \]
+The set $T$ is thus infinite but \emph{orbit-finite}.
+\Mywlog we may assume that $T_0$ nonredundant, namely no transition in $T_0$ maps
+by an atom permutation to another transition in $T_0$.
+In this case each element of $T_0$ represents an \emph{orbit} of $T$. 
+
+\begin{remark}
+Due to the closure under permutations, one could equivalently define the
+effect of a transition as a finite multiset of nonzero integers, thus specifying non-zero
+entries of a data vector without assigning the numbers to specific atoms.
+\end{remark}
+
+A configuration of $\V$ is a pair $(q, \vr w) \in Q\times (\atoms\finto\N)$ consisting of
+a control state $q$ and a \emph{nonnegative} data vector $\vr w$, written as $q(\vr w)$.
+For every nonnegative data vector $\vr w$, a transition $(q, \vr v, q') \in T$ induces 
+a \emph{step} from configuration
+$q(\vr w)$ to configuration $q'(\vr w+\vr v)$ of $\V$ as long as $\vr v + \vr w$ 
+is still nonnegative, written
+\[
+q(\vr w) \step q'(\vr w + \vr v),
+\]
+exactly as in plain \vass or \onevass.
+The \emph{reachability problem} asks, given a \donevass and two configurations, source $s$
+and target $t$, whether there is a sequence of steps (called a \emph{run} later on) 
+from $s$ to $t$, that is, whether $s \step^* t$.
+
+As usual, we will distinguish between binary and unary encoding of numbers appearing in
+the input.
+%
+For measuring the size of instance, we will use 
+the \emph{norm} and \emph{width} of $\V$, denoted $\norm{\V}$ and $\width{\V}$, resp.,
+and defined aa the largest norm, resp. the largest width, of an effect
+in $T_0$.
+We also naturally extend these measures to reachability instances $(\V,s,t)$ by taking
+the vectors of $s$ and $t$ additionally into account.
+
+As in plain (data-less) models, we have a tight connection between \vass, \vas and Petri
+nets (\pn).
+% Dimension of \vass (or \vas) corresponds to the number of places of Petri nets.
+A slight restriction of the model of \donevass is \donevas, the stateless fragment.
+Then, 
+a slight generalisation of \donevas is data Petri nets with one place,
+\emph{\donepn}.
+The reachability problem in \donepn is known to be decidable \cite{}.
+
+\begin{example}
+\sla{TODO: an example of data 1-VASS or 1-VAS, maybe a picture}
+\end{example}
+
+\para{Symmetric \vass}
+\donevass are like plain \vass of infinite dimension which are \emph{symmetric}, namely
+whose transitions are invariant under all permutations of dimensions.
+In this context it is natural to investigate symmetric \vass of finite dimension,
+a synactic fragment of \vass.
+The reachability problem in symmetric \vass, define along the same lines as for
+\donevass, is know to be decidable in \pspace \cite{KL25},
+even under the binary encoding, and under succinct representation that assumes that
+only the representatives $T_0$ of orbits of $T$ are given in the input.
+The \pspace upper bound appplies to any fixed dimension, as well as to the more general
+case when dimension of a symmetric \vass is a part of input.
+
+Symmetric \vass and \donevass are tightly connected, namely
+a \donevass $\V$ together with a number $d\geq\width{\V}$ naturally induces 
+a symmetric $d$-\vass $\findim {\V} d$, as restriction of (configurations of)
+$\V$ to an arbitrary subset of atoms of size $d$.
+
+
+\section{\Decomp \trace{s}}
+
+Any sequence of nonzero integers $h = n_1, \ldots, n_\ell$ such that every 
+prefix sum is nonnegative, namely $n_1 + \ldots + n_i \geq 0$ for every $i$,
+and the total sum is 0, namely $n_1 + \ldots + n_\ell = 0$, we call a
+\emph{\trace}.
+A \trace is \emph{\decomp} if it is an interleaving of two shorter traces,
+otherwise it is \emph{\indecomp}.
+The norm $\norm{h}$ of a \trace $h$ is the largest among absolute values of all $n_i$. 
+
+\begin{example}
+\sla{TODO}
+\end{example}
+
+As our first combinatorial tool we prove that every \trace of length exceeding a polynomial
+of its norm is \decomp:
+\begin{lemma} \label{lem:decomp}
+    There is a polynomial $p$ such that every \trace $h$ of length larger than $p(\norm h)$
+    is \decomp.
+\end{lemma}
+%
+\begin{proof}
+
+    The polynomial $p$ will be revealed in the proof below.
+
+    Consider a \trace $h = n_1 \ldots n_\ell$ and let $N$ be its maximal prefix-sum.
+    \para{Case I: $N > $}
+    \sla{hill cutting}
+
+    \para{Case II: $N \leq $}
+    \sla{GPT-sequences}
+
+\end{proof}
+
+\begin{corollary} \label{cor:decomp}
+Every \trace $h$ is an interleaving of \trace{s} of length at most $p(\norm{h})$.
+\end{corollary}
+
+
+\section{Complexity of the reachability problem}
+
+\begin{theorem} \label{thm:upper-bound}
+The \donevass reachability problem is decidable in:
+\begin{itemize} 
+    \item \expspace under binary encoding;
+    \item \pspace under unary encoding.
+\end{itemize}
+\end{theorem}
+%
+\begin{proof}
+We design a reduction to the symmetric \vass rachability problem which is polynomial
+un unary size of a \donevass reachability instance.
+More specifically, we prove that 
+every \donevass reachabiltity instance $(\V, s, t)$ is equivalent to
+the symmetric $d$-\vass reachability instance $(\findim \V d, \overline s, \overline t)$ 
+as long as 
+the dimension $d$ is large enough, namely 
+\[
+d\ \geq \ d_0 \ := \ (p(\norm{\V}) + 2)\cdot\width{\V} + 1,
+\]
+for  the polynomial $p$ of \Cref{cor:decomp}.
+% 
+The equivalence means that $s \step^* t$ is $\V$ if and only if
+$\overline s \step^* \overline t$ in $\findim {\V} d$.
+The reduction essentially preserves the set $T_0$ of orbit-representatives of 
+transitions, except that it pads every effect with sufficiently many zeros to get
+vectors of required dimension $d$.
+Likewise for source and target configurations $s$ and $t$, thus yielding their padded
+versions $\overline s$ and $\overline t$.
+
+The size of the symmetric $d$-\vass instance is thus polynomial in the size of 
+$(\V,s,t)$ in case of
+unary encoding, and exponential in the size of $\V$ in case of binary encoding.
+The complexity claims of \Cref{thm:upper-bound} follow immediately.
+\sla{Can we do better for binary encoding, 
+namely can we solve symmetric $d$-\vass in \pspace even if the dimension
+is exponential? The exponentially-long vectors would then be represented succinctly, 
+by listing (positions, nonzero value) pairs.}
+
+\medskip
+
+Suppose $\V$ has a run from $s$ to $t$, and consider a fixed such run $\rho$.
+For the correctness of the above reduction, it is enough to prove that
+$\V$ has a run from $s$ to $t$ that uses at most $d_0$ atoms.
+Formally, we are going to prove the following 
+bound on the support-size of a run, where the support of a run is defined
+as the union of supports of all vectors appearing in it:
+\begin{claim} \label{claim:sup-bound}
+$\V$ has a run from $s$ to $t$ whose support has size at most $d_0$.
+\end{claim}
+
+We need some preparation before embarking on the proof of the claim.
+
+Let $S\finsubseteq \atoms$ be the support of the run $\rho$.
+The set $S$ includes the supports of $s$ and $t$. The atoms in $S$ not belonging to
+the two supports we call \emph{ordinary}. 
+The run therefore starts and ends with 0 assigned to all ordinary atoms. 
+When proving \Cref{claim:sup-bound} we will bound the largest number of
+ordinary atoms appearing in a configuration along the run.
+
+For every ordinary atom in $a\in S$ we can consider 
+the subsequence $\rho_a$ of $\rho$ consisting 
+of steps that uses atom $a$ (i.e., those steps, where the support of the effect
+contains atom $a$). 
+This subsequence represents thus the complete history of atom $a$ along the whole run. 
+We define the \emph{\trace} $h_a$ of $a$ as the sequence 
+of effects of transitions from $\rho_a$ on $a$.
+This is a sequence of nonzero integers that is indeed a \trace:
+every prefix sum is nonnegative, and the total sum is zero.
+
+\medskip
+
+We prove \Cref{claim:sup-bound} by transforming $\rho$ into a run of support size
+at most $d_0$, in two steps.
+As the first step, using \Cref{cor:decomp} (note that $\norm{h_a}\leq\norm{\V}$), 
+for every ordinary atom $a$ we split $h_a$ into an interleaving of traces
+$h_1, \ldots, h_m$, each of length at most $f(\norm{\V})$.
+In every such subsequence, separately, we rename $a$ to a \emph{fresh} atom, i.e.,
+an atom outside of $S$. 
+In this way we get a new run $\rho'$ from $s$ to $t$ satisfying:
+
+\begin{claim} \label{claim:trace-bound}
+% $\V$ has a run $\rho'$ from $s$ to $t$ where 
+The trace of every ordinary atom in $\rho'$
+has length at most $p(\norm{\V})$.
+\end{claim}
+%
+The new run may thus use way more atoms that $\rho$, but each ordinary atom
+is used by a polynomially bounded number of step.
+
+As the second step, we merge ordinary atoms in order to decrease their number below the
+required threshold.
+To this aim we define a graph whose nodes are all ordinary atoms apearing in $\rho'$,
+and an edge connects atoms $a$ and $b$ if some step in $\rho'$ uses both $a$ and $b$.
+Due to the bound on the lengths of traces of oedinary atoms given in \Cref{claim:trace-bound},
+the degree of the graph is bounded by $B:=p(\norm{\V})\cdot \width{\V}$, 
+and therefore the nodes of the graph can be colored using $B+1$ colors so that 
+no edge connects two nodes of the same color.
+We merge all ordinary atoms whose nodes are colored by the same color (for instance,
+by remaming all of them to a chosen one). 
+In this way we obtain a run $\rho''$ from $s$ to $t$ with at most $B+1$ ordinary atoms. 
+Bounding the support sizes of $s$ and $t$ by $\width{\V}$, we deduce that
+the support of $\rho''$ has size at most
+\[
+B+1 + 2\cdot\width{\V} \ = \  (p(\norm{\V}) + 2)\cdot\width{\V}+1 \ = \ d_0.
+\]
+\Cref{claim:sup-bound} is thus proved, and hence so is \Cref{thm:upper-bound}.
+
+
+\end{proof}
+
+Our lower bounds apply to stateless fragment:
+
+\begin{theorem}
+The \donevas reachability problem is:
+\begin{itemize}
+\item \pspace-hard under binary encoding;
+\item \np-hard under unary encoding.
+\end{itemize}
+\end{theorem}
+%
+\begin{proof}
+\end{proof}
+
+\begin{remark}
+The proof of \np lower bound applies to symmetric \vas reachability problem,
+assuming the dimension is not fixed but given as a part of input.
+\end{remark}
 
 \newpage
 
