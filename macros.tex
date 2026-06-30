@@ -1,374 +1,249 @@
-% !TEX root = main-symmetric.tex
+% !TEX root = ../main.tex
 
-%\usepackage[bibliography=common,appendix=append]{apxproof}
-%\usepackage[bibliography=common,appendix=strip]{apxproof}
+\newcommand{\pspace}{\textsc{PSpace}\xspace}
+\newcommand{\tw}[1]{\Time #1^*}
+\newcommand{\two}[1]{\Time #1^\omega}
+\newcommand{\para}[1]{\vspace{-2mm}\subparagraph*{#1.}}
+\newcommand{\Buchi}{B\"uchi\xspace}
 
-%\usepackage{amssymb,amsmath,amsthm}
-%\usepackage{mathrsfs}
-\usepackage{xcolor}
-\usepackage{hyperref}
-%\usepackage{bookmark}
-\usepackage{xspace}
-%\usepackage{mathtools}
-%\usepackage{algorithm}
-%\usepackage[noend]{algpseudocode}
-%\usepackage[all]{xy}
-\usepackage{extarrows}
-%\usepackage{pgfplots}
+\newcommand{\wlogg}{w.l.o.g.\xspace}
+\newcommand{\tuple}[1]{\ensuremath{\langle #1 \rangle}\xspace}
 
+%%% Todo notes
+\newcommand{\slside}[1]{\todo[color=yellow]{SL: {#1}}}
+\newcommand{\slinline}[1]{\todo[color=yellow,inline]{SL: {#1}}}
+\newcommand{\ml}[1]{\todo[color=cyan]{ML: {#1}}}
+\newcommand{\rp}[1]{\todo[color=green]{RP: {#1}}}
+\newcommand{\mlinline}[1]{\todo[color=cyan,inline]{ML: {#1}}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
 
-
-\usepackage{amsfonts}
-\usepackage[T1]{fontenc}
-%\usepackage[english]{babel}
-%\usepackage{enumitem}
-%\usepackage{amsthm}
-\usepackage{tikz}
-\usetikzlibrary{arrows,arrows.meta,automata,positioning} 
-
-%\renewcommand{\appendixprelim}{\newpage}
-%\newtheoremrep{theorem}[claim]{Theorem}
-%\newtheoremrep{mythm}[theorem]{Theorem}
-%\newtheoremrep{lemma}[theorem]{Lemma}
-%\newtheoremrep{claim}[theorem]{Claim}
-
-%\newtheoremrep{fact}[theorem]{Fact}
-
-
-
-\newcommand{\lrot}[1]{\ell(#1)}%{{\tiny \leftarrow}(#1)}
-\newcommand{\sumpres}{source-bounded\xspace} %{sum-preserving\xspace} %{2-bounded\xspace} %
-\newcommand{\Wlog}{W.l.o.g.\xspace}
-\newcommand{\mywlog}{w.l.o.g.\xspace}
-\newcommand{\lb}{length-bounded\xspace}
-\newcommand{\plb}{polynomially length-bounded\xspace}
-\newcommand{\Zrun}{$\Z$-run\xspace}
-\newcommand{\Zruns}{$\Z$-runs\xspace}
-\newcommand{\Fair}{Fair\xspace}
-\newcommand{\fair}{fair\xspace}
-\newcommand{\ffair}{forward \fair}
-\newcommand{\balrun}{balanced\xspace}
-\newcommand{\balrunable}{balanceable\xspace}
-\newcommand{\ssreach}[2]{\text{{\sc Reach}}(#1, #2)\xspace}
-\newcommand{\sreach}[1]{{\text{\sc Reach}}(#1)\xspace}
-\newcommand{\intcone}[1]{\text{\sc IntCone}(#1)}
-\newcommand{\diff}[2]{\Delta_{#1}(#2)}
-\newcommand{\wrprod}[2]{#1\wr #2}
-
-\newcommand{\canred}[2]{\sigma_{#1,#2}}
-\newcommand{\symg}[1]{S_{#1}}
-\newcommand{\altg}[1]{A_{#1}}
-\newcommand{\cycg}[1]{Z_{#1}}
-\newcommand{\tg}[1]{I_{#1}}
-\newcommand{\const}[1]{\overline{#1}}
-\newcommand{\card}[1]{\left|#1\right|}
-\newcommand{\absv}[1]{|#1|}
-\newcommand{\OO}{{\cal O}}
-\newcommand{\Th}{\Theta}
-\newcommand{\Npos}{\N_+}
-\newcommand{\svas}[1]{#1-{\sc Vas}}
-\newcommand{\svass}[1]{#1-{\sc Vass}}
-\newcommand{\vect}[1]{\mathbf{#1}}
-\newcommand{\vr}[1]{\vect{#1}}
-\newcommand{\ind}[1]{\mathbf{1}_{#1}}
-\newcommand{\Aut}[1]{\Autpar{}{#1}}
-\newcommand{\cg}[1]{{#1}\to_\text{\tiny fin}\Z}
-\newcommand{\cgN}[1]{{#1}\to_\text{\tiny fin}\N}
-\newcommand{\vas}{\text{\sc vas}\xspace}
-\newcommand{\vass}{\text{\sc vass}\xspace}
-\newcommand{\dvas}{\text{\sc dvas}\xspace}
-\newcommand{\gvas}{\text{\sc gvas}\xspace}
-\newcommand{\gdvas}{\text{\sc gdvas}\xspace}
-\newcommand{\parvass}[1]{$#1$-\vass}
-\newcommand{\parvas}[1]{$#1$-\vas}
-\newcommand{\zvass}{$\Z$-{\sc vass}\xspace}
-%\newcommand{\eff}[1]{\textsc{eff}(#1)}
-%\newcommand{\dvas}{\text{\sc dvas}\xspace}
-\newcommand{\pseudorunarrow}{\dashrightarrow}
-\newcommand{\runarrow}{\longrightarrow}
-\newcommand{\Xrunarrow}[1]{\xlongrightarrow{#1}}
-\newcommand{\backpseudorunarrow}{\dashleftarrow}
-\newcommand{\backrunarrow}{\longleftarrow}
-\newcommand{\Xbackrunarrow}[1]{\xlongleftarrow{#1}}
-\newcommand{\orbsize}[1]{||#1||}
-\newcommand{\norm}[1]{\lVert#1\rVert}
-\newcommand{\myTheta}{\mathbf{\Phi}}
-\newcommand{\vectors}[1]{#1 \to_\text{\tiny fin} \Z}
-\newcommand{\rank}[1]{\text{\sc Rank}(#1)}
-\newcommand{\orbitof}[1]{\text{\sc Orbit}(#1)}
-\newcommand{\sorbitof}[2]{\text{\sc Orbit}_{#1}(#2)}
-\newcommand{\csg}[1]{\text{\sc Graph}(#1)}
-\newcommand{\ocsg}[1]{\text{\sc Orbit-Graph}(#1)}
-\newcommand{\reachset}[1]{\text{\sc Reach}(#1)}
-\newcommand{\NP}{\text{\sc NP}\xspace}
-\newcommand{\NL}{\text{\sc NL}\xspace}
-\newcommand{\tower}{\text{\sc Tower}\xspace}
-\newcommand{\FF}[1]{\mathcal{F}_{#1}}
-\newcommand{\pspace}{\text{\sc PSpa\-ce}\xspace}
-\newcommand{\dom}[1]{\text{\sc dom}(#1)}
-\newcommand{\supp}[1]{\text{\sc supp}(#1)}
-\newcommand{\pair}[2]{\langle #1,#2 \rangle}
-\newcommand{\tuple}[1]{\langle #1 \rangle}
-\newcommand{\wrtuple}[2]{(#1)\wr #2}
-\newcommand{\wqorel}{\sqsubseteq}
-\newcommand{\wqorelstrict}{\sqsubset}
-\newcommand{\wqorelS}[1]{\wqorel_{#1}}
-\newcommand{\wqorev}{\sqsupseteq}
-\newcommand{\wqorevS}[1]{\prescript{}{#1}\wqorev}
-\newcommand{\coversetS}[2]{\text{\sc Cover}_{#1}(#2)}
-\newcommand{\coverset}[1]{\text{\sc Cover}(#1)}
-\newcommand{\expspace}{{\sc ExpSpace}\xspace}
-\newcommand{\Ack}{{\sc Ackermann}\xspace}
-\newcommand{\singl}{*}
-%\newcommand{\SSS}{\overline S}
-\newcommand{\cond}[2]{\text{\sc State-Eq}(#1, #2)}
-\newcommand{\gcond}[1]{\text{\sc State-Eq}(#1)}
-\newcommand{\condhom}{\text{\sc State-Eq}}
-\newcommand{\ms}[2]{\text{\sc MS}(#1, #2)}
-\newcommand{\gms}[1]{\text{\sc MS}(#1)}
-\newcommand{\PI}[1]{\Pi(#1)}
-
-%\renewcommand{\appendixprelim}{\newpage}
-
-% conflicting macros
-
-\newcommand{\picunit}{3cm}
-\newcommand{\halfunit}{1.1cm}
-\newcommand{\multisets}[1]{{\mathcal M}(#1)}
-\newcommand{\places}{{\mathcal P}}
-\newcommand{\transitions}{{\mathcal T}}
-\newcommand{\trans}[1]{\stackrel{#1}{\longrightarrow}}
-
-%%%%%%%%%%%%%%%%%%%%%%   symbols   %%%%%%%%%%%%%%%%%%%%%
-
-\newenvironment{slexample}
-    {\begin{example}\rm}
-    {\hfill $\triangleleft$ \end{example}}
-\newenvironment{sldefinition}
-    {\begin{definition}\rm}
-    {\hfill $\triangleleft$ \end{definition}}
-
-
-\newcommand{\reachprob}[1]{$#1$-\vass-{\sc{Reach}}}
-\newcommand{\reachprobnoarg}{\vass-{\sc{Reach}}}
-\newcommand{\vasreachprob}[1]{$#1$-\vas-{\sc{Reach}}}
-\newcommand{\vasreachprobnoarg}{\vas-{\sc{Reach}}}
-\newcommand{\CP}{\text{\sc C}[\WW]}
-\newcommand{\US}{\mathcal{U}}
-\newcommand{\VS}{\mathcal{V}}
-\newcommand{\WS}{\mathcal{W}}
-\newcommand{\enc}[1]{\text{\sc enc}(#1)}
-\newcommand{\lin}[1]{\text{\sc Lin}(#1)}
-\newcommand{\otu}[2]{#1^{#2}}
-\newcommand{\pfin}[1]{\mathcal{P}_\text{\tiny fin}(#1)}
-\newcommand{\degpol}[2]{\text{\sc deg}_{#1}\, #2}
-\newcommand{\degmon}[1]{\text{\sc deg}\, #1}
-\newcommand{\wqo}{\text{\sc wqo}\xspace}
-\newcommand{\age}[1]{\text{\sc Age}(#1)}
-\newcommand{\agepar}[2]{\text{\sc Age}(#1, #2)}
-\newcommand{\id}[1]{\textrm{Id}_{#1}}
-\newcommand{\eqidealgen}[1]{\langle #1 \rangle}
-\newcommand{\size}[1]{|#1|}
-\newcommand{\prof}[3]{(#2,#3)\textsc{-prof}(#1)}
-\newcommand{\restr}[2]{{#1}_{|#2}}
-\newcommand{\reach}{\leadsto} %{\twoheadrightarrow}
-\renewcommand{\a}{\alpha}
-\renewcommand{\c}{c}
-\renewcommand{\d}{c'}
-\newcommand{\A}{\mathbb{A}}
-\newcommand{\BB}{\mathbb{B}}
+%%% Sets
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
-\newcommand{\aut}{\textnormal{Aut}}
-\renewcommand{\b}{\beta}
-\newcommand{\bS}{\mathbf{S}}
-\newcommand{\glex}{\lexorderstrictinv}
-\newcommand{\emb}{\text{\sc e}}
-\newcommand{\embnr}[2]{\begin{bmatrix}#1, #2\end{bmatrix}}
-\newcommand{\inc}{\textnormal{Inc}}
-\newcommand{\infi}{\textnormal{infimum}}
 \newcommand{\N}{\mathbb{N}}
-\newcommand{\Nom}{\N_\omega}
-\newcommand{\Qf}{\mathbb{Q}}
-\newcommand{\Q}{Q}
-\newcommand{\QQ}{\mathcal{Q}}
-\newcommand{\sS}{\mathbb{S}}
-\newcommand{\supr}{\textnormal{supremum}}
-\newcommand{\w}{a}
-\renewcommand{\v}{b}
-\newcommand{\ww}{c}
-\newcommand{\game}[2]{\mathcal{G}(#1,#2)}
-\newcommand{\colorsource}{\text{\sc source}}
-\newcommand{\colortargetone}{\text{\sc target}_1}
-\newcommand{\colortargettwo}{\text{\sc target}}
-\newcommand{\Spoiler}{\text{\sc Spoiler}\xspace}
-\newcommand{\Reducer}{\text{\sc Reducer}\xspace}
-\newcommand{\gamered}{\ll}
+\newcommand{\Npos}{\mathbb{N}_{>0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Time}{\mathbb{T}}
+\newcommand{\Qpos}{\Q_{\geq 0}}
+\newcommand{\Rpos}{\R_{\geq 0}}
+
+%%% NTA
+\newcommand{\rresNTA}{\ensuremath{\text{reach-}\textsc{NTA}^{\text{res}}\xspace}}
+\newcommand{\resNTA}{\ensuremath{\textsc{NTA}^{\text{res}}}}
+\newcommand{\rNTA}{\ensuremath{\text{reach-}\textsc{NTA}}\xspace}
+\newcommand{\NTA}{\ensuremath{\textsc{NTA}}\xspace}
+\newcommand{\NRA}{\ensuremath{\textsc{NRA}}\xspace}
+\newcommand{\DTA}{\ensuremath{\textsc{DTA}}\xspace}
+\newcommand{\DRA}{\ensuremath{\textsc{DRA}}\xspace}
+\newcommand{\DFA}{\ensuremath{\textsc{DFA}}\xspace}
+\newcommand{\NFA}{\ensuremath{\textsc{NFA}}\xspace}
+
+\newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
-%\renewcommand{\H}{\mathcal{H}}
-\newcommand{\Sof}[1]{\mathcal{S}(#1)}
-\newcommand{\Ssub}[1]{\mathcal{S}_{#1}}
-\newcommand{\Pres}[1]{\mathcal{P}_{#1}}
-\newcommand{\Sminof}[1]{\mathcal{S}_\text{min}(#1)}
-\newcommand{\I}{\mathcal{I}}
-\newcommand{\J}{\mathcal{J}}
-\newcommand{\R}{\mathbb{K}}
-\newcommand{\Rf}{\mathbb{R}}
-\newcommand{\WW}{\mathcal{A}}
-\newcommand{\WWfin}{\mathcal{A}_\text{fin}}
-\newcommand{\VV}{\mathcal{B}}
-\newcommand{\UU}{\mathcal{C}}
-\renewcommand{\AA}{\mathcal{A}}
-\newcommand{\W}{A}
-\newcommand{\Vs}{B}
-\newcommand{\Bs}{B}
-\newcommand{\Cs}{C}
-\newcommand{\Us}{C}
-\newcommand{\Wfin}{X_\text{fin}}
 \newcommand{\C}{\mathcal{C}}
-\newcommand{\V}{\mathcal{V}}
-\newcommand{\G}{\mathcal{G}}
-\newcommand{\E}{{\embed{\WW}}}
+
+\newcommand{\Cl}{\mathcal{X}}
+\newcommand{\val}{\nu}
+\newcommand{\Gu}{\mathrm{Guard}}
+\newcommand{\wordToVal}{\mathrm{val}}
+
+\newcommand{\Locs}{L}
+\newcommand{\loc}{\ell}
+\newcommand{\LocsI}{\Locs_i}
+\newcommand{\LocsF}{\Locs_f}
+
+\newcommand{\Trans}{\Delta}
+\newcommand{\trans}{\delta}
+
+\newcommand{\NTAEx}{\ensuremath{\tuple{\Locs, \Cl, \Sigma, \LocsI, \LocsF, \Trans}}}
+\newcommand{\NTAExOne}{\ensuremath{\tuple{\Locs, \{x\}, \Sigma, \LocsI, \LocsF, \Trans}}}
+\newcommand{\Lang}{\mathcal{L}}
+
+%%% Lossy Counter Machines
+\newcommand{\zeroval}{{0}^\Counter}
 \newcommand{\M}{\mathcal{M}}
-\newcommand{\K}{K}
-\newcommand{\Cmin}{\mathcal{C}_\text{min}}
-\newcommand{\Net}{\mathcal{N}}
-\newcommand{\embed}[1]{\text{\sc Emb}_{#1}}
-\newcommand{\conf}[1]{\text{\sc Conf}(#1)}
-\newcommand{\Gr}{Gr{\"o}bner\xspace}
-\newcommand{\Fr}{Fra{\.i}ss{\'e}\xspace}
-\newcommand{\Bu}{Buchberger\xspace}
-\newcommand{\down}[1]{#1\!\downarrow\ }
-%%%%%%%%%%%%%%%%%%%%%%   macros   %%%%%%%%%%%%%%%%%%%%%
+\newcommand{\inc}{\mathrm{inc}}
+\newcommand{\dec}{\mathrm{dec}}
+\newcommand{\zt}{\mathrm{zt}}
+%\newcommand{\inc}{{c\increment}}
+%\newcommand{\dec}{{\decrement}}
+%\newcommand{\zt}{{\ztest}}
+\newcommand{\ztest}{\mkern3mu{\sequals\mkern-1mu{0}{?}}}
+%\newcommand{\increment}{\mkern1mu\raisebox{-0.2ex}{\texttt{+}\texttt{+}}}
+%\newcommand{\decrement}{\mkern1mu\raisebox{-0.2ex}{\texttt{-}\texttt{-}}}
+\newcommand{\increment}{\mkern2mu{\splus\mkern-1mu\splus}\mkern1mu}
+\newcommand{\decrement}{\mkern2mu{\sminus\mkern-1mu\sminus}\mkern1mu}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Counter}{\mathcal{C}}
+\newcommand{\counter}{c}
+\newcommand{\States}{S}
+\newcommand{\state}{s}
+\newcommand{\Instructions}{\mathcal{I}}
+\newcommand{\instruction}{I}
 
-\newcommand{\rev}[1]{{#1}^{\text{\tiny rev}}}
-\newcommand{\fun}[1]{[#1]}
-\newcommand{\vars}[1]{\text{\sc vars}(#1)}
-\newcommand{\red}[3]{#1 \longrightarrow_#2 #3} 
-\newcommand{\redstar}[3]{#1 \longrightarrow^*_#2 #3}
-\newcommand{\finitedomain}[1]{\langle#1\rangle}
-\newcommand{\orddomain}[1]{\langle#1\rangle}
-\renewcommand{\deg}[1]{\textnormal{deg}\left( #1 \right)}
-\newcommand{\lcm}[2]{\text{\sc lcm}(#1,#2)}
-\newcommand{\lc}[1]{\text{\sc lc}(#1)}
-\newcommand{\lm}[1]{\text{\sc lm}(#1)}
-\newcommand{\cc}[1]{\text{\sc cp}(#1)}
-\newcommand{\ltsymb}{\text{\sc lt}}
-\newcommand{\lt}[1]{\ltsymb(#1)}
-\newcommand{\mono}{\mathcal{M}}
-\newcommand{\polyring}[2]{#1[#2]}
-\newcommand{\monomials}[1]{\text{\sc Mon}[#1]}
-\newcommand{\monterms}[1]{\text{\sc T}[#1]}
-\newcommand{\monomialspar}[2]{\text{\sc Mon}_{#2}[#1]}
-%\newcommand{\mlmonomials}[1]{\text{\sc ML-Mon}[#1]}
-%\newcommand{\unionmlmon}[2]{#1 \cup #2}
-\newcommand{\set}[1]{\left\{#1\right\}}
-\newcommand{\multiset}[1]{\set{#1}}
-\newcommand{\setpref}[1]{\{#1}
-\newcommand{\setsuf}[1]{#1\}}
-\newcommand{\setof}[2]{\left\{#1 \, \middle\vert \, #2\right\}}
-\newcommand{\multisetof}[2]{\setof{#1}{#2}}
-\newcommand{\zeromon}{\mathbf{1}}
-\newcommand{\zeropol}{\mathbf{0}}
-\newcommand{\minupperb}[2]{#1 \uparrow #2}
-\newcommand{\subseteqfin}{\subseteq_\text{fin}}
+%%% Runs
+\newcommand{\FRuns}{\mathrm{FRuns}}
+\newcommand{\MRuns}{\mathrm{Runs}}
+\newcommand{\run}{\rho}
+\newcommand{\Runs}{\mathrm{Runs}}
+\newcommand{\AccRuns}{\mathrm{AccRuns}}
 
-\newcommand{\setfromto}[2]{\set{#1,\ldots , #2}}
-\newcommand{\setto}[1]{[#1]}
-\newcommand{\settoz}[1]{[#1]_0}
-\newcommand{\domprod}{\otimes}
-\newcommand{\domexp}[2]{{#1}^{(#2)}}
-\newcommand{\lexorder}{\wo_\text{\tiny lex}}
-\newcommand{\ordorder}{\trianglelefteq}
-\newcommand{\ordorderstrict}{\triangle left}
-\newcommand{\lexorderstrict}{\wostrict_\text{\tiny lex}}
-\newcommand{\lexorderstrictinv}{\wostrictinv_\text{\tiny lex}}
-\newcommand{\lexorderinv}{\woinv_\text{\tiny lex}}
-%\newcommand{\mincl}{\subseteq}
-\newcommand{\divorder}{\mid}
-\newcommand{\minclstrict}{\subset}
-\newcommand{\wpo}{\sqsubseteq}
-\newcommand{\wpostrict}{\sqsubset}
-\newcommand{\wo}{\preceq}
-%\newcommand{\domord}{\unlhd_\text{\tiny}}
-%\newcommand{\domordstrict}{\lhd_\text{\tiny}}
-\newcommand{\toto}{\preceq}
-\newcommand{\wostrict}{\prec}
-\newcommand{\woinv}{\succeq}
-\newcommand{\wostrictinv}{\succ}
-\newcommand{\wotwo}{\trianglelefteq}
-\newcommand{\wotwostrict}{\triangleleft}
-\newcommand{\renorder}{\leadsto}
-\newcommand{\detorder}{\rightsquigarrow}
-%\newcommand{\embset}[1]{#1\,{\rightsquigarrow}\,\WW}
-\newcommand{\embset}[1]{\restr \E #1}
-\newcommand{\embsetprod}[2]{#1\boxtimes #2}
-\newcommand{\prettyexists}[2]{\exists #1 : #2}
-\newcommand{\prettyforall}[2]{\forall #1 : #2}
-\newcommand{\defeq}{\stackrel{\text{\tiny def}}{=}}
-\newcommand{\transpose}[1]{#1^{\top}}
-%\newcommand{\WSOM}{\textsc{wsom}}
-\newcommand{\range}[1]{\text{\sc range}(#1)}
+%%% Players
+\renewcommand{\Game}{\mathcal{G}}
+\newcommand{\Subject}{\ensuremath{\mathrm{Agent}}\xspace}
+\newcommand{\Owner}{\ensuremath{\mathrm{Owner}}\xspace}
+\newcommand{\subject}{agent\xspace}
+\newcommand{\owner}{owner\xspace}
+\newcommand{\Timer}{\ensuremath{\mathrm{Timer}}\xspace}
+\newcommand{\Monitor}{\ensuremath{\mathrm{Monitor}}\xspace}
+\newcommand{\PlayerP}{\ensuremath{\mathrm{Player}}\xspace}
+
+\newcommand{\TimerAlphabet}{\mathrm{T}}
+\newcommand{\MonitorAlphabet}{\mathrm{M}}
 
 
-%%%%%%%%%%%%%%%%%%%%%%   environments   %%%%%%%%%%%%%%%%%%%%%
-
-%\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
-
-%\newtheoremrep{theorem}{Theorem}
-%\newtheorem{property}[theorem]{Property}
-%\newtheorem{definition}[theorem]{Definition}
-%\newtheorem{proviso}[theorem]{Proviso}
-%%\newtheorem{lemma}[theorem]{Lemma}
-%\newtheoremrep{lemma}[theorem]{Lemma}
-%\newtheorem{assumption}[theorem]{Assumption}
-%\newtheoremrep{claim}[theorem]{Claim}
-%%\newtheorem{algorithm}[theorem]{Algorithm}
-%\newtheorem{corollary}[theorem]{Corollary}
-%\newtheorem{problem}[theorem]{Problem}
-%\newtheorem{example}[theorem]{Example}
-%\newtheorem{remark}[theorem]{Remark}
+%%% Strategy
+\newcommand{\Controller}{\A}
+\newcommand{\strategy}{\sigma}
+\newcommand{\strategyT}{\strategy_\mathrm{T}}
+\newcommand{\strategyM}{\strategy_\mathrm{M}}
+\newcommand{\untimeStrategy}{\chi}
+\newcommand{\untimeStrategyA}{\untimeStrategy_\mathrm{A}}
+\newcommand{\untimeStrategyP}{\untimeStrategy_\mathrm{P}}
 
 
-
-\newenvironment{claimproofnew}{\paragraph{\textnormal{Proof:}}}{
-\medskip
+%%% AW/C reduction
+%\newcommand{\N}{\mathbb{N}}
+%\newcommand{\FinAlp}{\mathbb{F}}
+%\newcommand{\Alp}{\Sigma}
+%\newcommand{\Data}{\mathbb{D}}
+%\newcommand{\A}{\mathcal{A}}
+%\newcommand{\nop}{\mathrm{nop}}
+%\newcommand{\val}{\nu}
+%\newcommand{\run}{\rho}
+%\newcommand{\Runs}{\mathrm{Runs}}
+%\newcommand{\botval}{\vec{\bot}}
 %
-\hfill $\triangleleft$ %$\square$
-%\medskip
-}
+%\newcommand{\G}{\mathcal{G}}
+%\newcommand{\Sys}{\ensuremath{{\mathrm{Sys}}}\xspace}
+%\newcommand{\Env}{\ensuremath{{\mathrm{Env}}}\xspace}
+%\newcommand{\sys}{\mathrm{sys}}
+%\newcommand{\env}{\mathrm{env}}
+%\newcommand{\cont}{C}
+\newcommand{\Win}{W_\M} %\mathrm{Win}}
+\newcommand{\Reach}{\mathrm{Reach}}
+%
 
-\newcommand{\para}[1]{\subparagraph*{\rm \bf #1.}}
+%
+%\newcommand{\rep}{\mathrm{r}}
+%\newcommand{\ok}{\ensuremath{\text{\cmark}}\xspace}
+%\newcommand{\err}{\ensuremath{\text{\xmark}}\xspace}
+\newcommand{\ok}{\ensuremath{\cmark}\xspace}
+\newcommand{\err}{\ensuremath{\xmark}\xspace}
 
-\newcommand{\probname}[1]{{\sc #1}}
-\newcommand{\prob}[3]{
-%\begin{quote}                                                                                                                                                                    
-\vspace{-2mm}
-\emph{                                                                                                                                                                            
-\begin{description}                                                                                                                                                               
-\item[\probname{#1}:]           \    
-\vspace{-1mm}                                                                                                                                                    
-\item[\bf Input: ] \ \ \ \ \  #2.                                                                                                                                                  
-\vspace{-2mm}                                                                                                                                                    
-\item[\bf Question: ] #3?                                                                                                                                               
-\end{description}                                                                                                                                                                 
-}
-%\end{quote}                                                                                                                                                                      
-\vspace{1mm}
-}
+\newcommand{\Ok}{\ensuremath{\cmark}\xspace}
+\newcommand{\errR}{\ensuremath{\xmark}_\mathrm{R}\xspace}
+\newcommand{\errA}{\ensuremath{\xmark}_\mathrm{A}\xspace}
+\newcommand{\errB}{\ensuremath{\xmark}_\mathrm{B}\xspace}
+\newcommand{\errC}{\ensuremath{\xmark}_\mathrm{C}\xspace}
+\newcommand{\Err}{\mathrm{Err}}
+%\newcommand{\Reg}{\mathrm{Reg}}
+\newcommand{\RegI}{\mathrm{Reg}}
+\newcommand{\RegIM}{\RegI_{\M}}
+\newcommand{\RegIMT}{\RegI_{\M}^\Time}
+\newcommand{\RegIMTloc}{\RegI_{\M}^{\Time,\ell}}
 
-%%%%%%%%%%%%%%%%%%%%%%   comments   %%%%%%%%%%%%%%%%%%%%%
+\newcommand{\RegII}{\mathrm{Reg}_{\M}}
 
-\newcommand{\arka}[1]{\textnormal{\textcolor{red}{\textbf{Arka:} #1}}}
-\newcommand{\sla}[1]{\textnormal{\textcolor{blue}{\textbf{SL:} #1\ \ }}}
-\newcommand{\lukasz}[1]{\textnormal{\textcolor{purple}{\textbf{ŁK:} #1\ \ }}}
-\newcommand{\todo}{\textcolor{blue}{TODO}\xspace}
+\newcommand{\AM}{A_{\M}^{\Time}}
+\newcommand{\BM}{B_{\M}^{\Time}}
+\newcommand{\CM}{C_{\M}^{\Time}}
 
-\newcommand{\probdef}[3]{
-\begin{itemize} %[leftmargin=2.0cm,labelsep=0.5cm]
-    %\setlength\itemsep{0.05cm}
-    \item[] \textsc{#1}
-    \item[] \textit{Input:} \quad\, #2.
-    \item[] \textit{Question:} #3?
-\end{itemize}
-}
+\newcommand{\AMloc}{A_{\M}^{\Time,\ell}}
+\newcommand{\BMloc}{B_{\M}^{\Time,\ell}}
+\newcommand{\CMloc}{C_{\M}^{\Time,\ell}}
 
+\newcommand{\ErrLang}{\mathrm{Err}_\M}
+\newcommand{\NotErrLang}{\mathrm{Ok}_\M}
+\newcommand{\ErrLangOne}{\mathrm{Err}^{\mathrm{R1}}_\M}
+\newcommand{\NotErrLangOne}{\mathrm{Ok}^{\mathrm{R1}}_\M}
+\newcommand{\ErrLangTwo}{\mathrm{Err}^{\mathrm{R2}}_\M}
+\newcommand{\NotErrLangTwo}{\mathrm{Ok}^{\mathrm{R2}}_\M}
+\newcommand{\NotErr}{\mathrm{NotErr}}
+\newcommand{\proj}{\pi}
+%\newcommand{\fin}{\mathrm{fin}}
+\newcommand{\pool}{\ensuremath{\square}}
+\newcommand{\FracPart}{\mathbb{F}}
+\newcommand{\fracpart}[1]{\mathrm{frac}(#1)}
+%\newcommand{\tick}{\mathrm{tick}}
+
+
+
+
+%%% TIKZ
+\usetikzlibrary{automata,positioning,shadows}
+\usetikzlibrary{calc, shapes, backgrounds,arrows}
+\usetikzlibrary{chains, decorations.pathmorphing}
+\usetikzlibrary{positioning,decorations.pathreplacing, automata}
+\usetikzlibrary{shapes.misc}
+
+\tikzset{every loop/.style={looseness=7}, >=latex}
+\tikzset{every picture/.style={>=latex}}
+\tikzstyle{PlayerMin}=[draw,circle,minimum size=4mm,inner sep=1.5pt]
+\tikzstyle{PlayerMax}=[draw,rectangle,minimum size=7mm,inner sep=1.5pt]
+\tikzstyle{Player}=[draw,diamond,minimum size=7mm,inner sep=1.5pt]
+\tikzstyle{target}=[circle, minimum size=1mm,inner sep=-2pt]
+\tikzstyle{PlayerMinmin}=[draw,circle, minimum size=1.5mm,inner sep=0pt]
+\tikzstyle{PlayerMaxmin}=[draw,rectangle,minimum size=1.5mm,inner sep=0pt]
+\tikzstyle{PlayerMinsmall}=[draw,circle, minimum size=3mm,inner sep=0pt]
+\tikzstyle{PlayerMaxsmall}=[draw,rectangle,minimum size=3mm,inner sep=0pt]
+\tikzstyle{leaf}=[draw,diamond,minimum size=7mm,inner sep=1.5pt]
+
+\tikzstyle{strat} =[minimum width=0.1cm,line width=0.01mm,draw=none]
+\tikzstyle{vecArrow} = [decoration={markings,mark=at position
+1 with {\arrow[scale=.5,>=latex]{>}}}%,postaction={decorate}
+]
+
+
+% Equivalence
+\newcommand{\winContMonitor}{\mathrm{winCont}^{\mathrm{M}}_\A}
+\newcommand{\intsize}{\mathrm{size}}
+
+% Encoding Buchi LCM reduction
+\newcommand{\ValEnc}{\mathrm{ValEnc}}
+\newcommand{\RunEnc}{\mathrm{RunEnc}}
+\newcommand{\enc}{\mathrm{enc}}
+\newcommand{\sem}[1]{\llbracket#1\rrbracket}
+\newcommand{\untimed}{\mathrm{untime}}
+\newcommand{\projA}{\mathrm{proj}_{\TimerAlphabet,\Time}}
+\newcommand{\projAA}{\mathrm{proj}_\TimerAlphabet}
+\newcommand{\projB}{\mathrm{proj}_\MonitorAlphabet}
+
+
+\theoremstyle{definition}
+\newtheorem{condition}{Condition}
+%\newtheorem{fact}{Fact}
+
+\DeclarePairedDelimiter {\size} \lVert\rVert
+
+% Checkmark and cross for Ok and Err.
+%\newcommand{\cmark}{\ding{51}} % ✓
+%\newcommand{\xmark}{\ding{55}} % ✗
+
+
+\newcommand{\cmark}{\mathord{\raisebox{-0.18pt}{\includegraphics[height=1.04\fontcharht\font`A]{custom_symbols/check4}}}}
+\newcommand{\xmark}{\mathord{\raisebox{-0.16pt}{\includegraphics[height=1.04\fontcharht\font`A]{custom_symbols/cross2}}}}
+\newcommand{\sminus}{\mathop{\raisebox{-0.16pt}{\includegraphics[height=1.04\fontcharht\font`A]{custom_symbols/smallminus}}}}
+\newcommand{\splus}{\mathop{\raisebox{-0.16pt}{\includegraphics[height=1.04\fontcharht\font`A]{custom_symbols/smallplus}}}}
+\newcommand{\sequals}{\mathop{\raisebox{-0.16pt}{\includegraphics[height=1.04\fontcharht\font`A]{custom_symbols/smallequals}}}}
+
+% Set
+\newcommand{\suchthat}{\suchthatSymbol\PackageWarning{Radeks Macro}{Command suchthat used outside of matching PairedDelimiter was used on input line \the\inputlineno.}}
+\newcommand\suchthatSymbol[1][]{\nonscript\:#1\vert\allowbreak\nonscript\:\mathopen{}}
+\DeclarePairedDelimiterX{\setInner}[1]\{\}{\renewcommand\suchthat{\suchthatSymbol[\delimsize]}#1}
+\NewDocumentCommand{\set}{ O{a} m }{\ifx#1a\setInner*{#2}\else\ifx#1b{\{#2\}}\else\setInner[#1]{#2}\fi\fi}
+
+
+% Table
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
